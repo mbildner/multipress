@@ -1,0 +1,49 @@
+<html>
+  <head></head>
+  <body>
+    <script>
+      var timestampMap = {};
+      var durationMap = {};
+
+      var LEFT_RIGHT_DOWN = {
+        37: true,
+        39: true,
+        40: true
+      };
+
+      var SPACE = 32;
+      var UP = 38;
+
+      document.addEventListener('keydown', function(event){
+        if (event.which === SPACE) {
+          return;
+        }
+
+        if (event.which === UP) {
+          return;
+        }
+
+        if (!(event.which in LEFT_RIGHT_DOWN) || timestampMap[event.which]) { return; }
+        timestampMap[event.which] = event.timeStamp;
+      });
+
+      document.addEventListener('keyup', function(event){
+        var key = event.which;
+        delete timestampMap[key];
+        delete durationMap[key];
+      });
+
+      window.setInterval(function(){
+        var now = Date.now();
+
+        var k;
+        var v;
+        var duration;
+
+        for (k in timestampMap){
+          durationMap[k] = now - timestampMap[k];
+        }
+      }, 150);
+    </script>
+  </body>
+</html>
